@@ -2,7 +2,7 @@ package br.com.alunoonline.api.service;
 
 import br.com.alunoonline.api.model.Aluno;
 import br.com.alunoonline.api.repository.AlunoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,18 +10,24 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class AlunoService {
 
-    @Autowired
-    AlunoRepository alunoRepository;
 
-    public void criarAluno(Aluno aluno) {
+    final AlunoRepository alunoRepository;
+
+    public Aluno criarAluno(Aluno aluno) {
         alunoRepository.save(aluno);
+        return aluno;
     }
 
     public List<Aluno> buscarTodosAlunos() {
         return alunoRepository.findAll();
+    }
+
+    public Optional<Aluno> buscarPorCpf(String cpf) {
+        return alunoRepository.buscarPorCpf(cpf);
     }
 
     public Optional<Aluno> buscarAlunoPorId(Long id) {
